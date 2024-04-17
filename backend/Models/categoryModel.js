@@ -1,24 +1,19 @@
+const mongoose = require("mongoose");
 
-const { Schema, model } = require("mongoose");
-
-const categorySchema = new Schema(
+const categorySchema = new mongoose.Schema(
   {
     name: {
       type: String,
     },
     slug: {
       type: String,
-      require: true,
-      unique: true,
     },
     image: {
       type: String,
-      require: true,
-      unique: true,
     },
     owner: {
-        type: Schema.Types.ObjectId,
-        ref: "User",
+      type: mongoose.ObjectId,
+      ref: "User",
     },
   },
   {
@@ -27,12 +22,9 @@ const categorySchema = new Schema(
   }
 );
 
-const categoryModel = model("Category", categorySchema);
+const categoryModel = mongoose.model("Category", categorySchema);
 
-module.exports =  categoryModel;
-
-
-
+module.exports = categoryModel;
 
 // name : string
 // slug : string
