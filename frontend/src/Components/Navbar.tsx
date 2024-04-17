@@ -1,23 +1,18 @@
-import { useState, useEffect } from "react"; // Import useState and useEffect hooks
+import { useState, useEffect } from "react"; 
 import {
   Box,
   Flex,
   Avatar,
   HStack,
-  Text,
-  IconButton,
   Button,
   Menu,
   MenuButton,
   MenuList,
   MenuItem,
   MenuDivider,
-  useDisclosure,
   useColorModeValue,
-  Stack,
 } from "@chakra-ui/react";
 import { FaCartShopping } from "react-icons/fa6";
-import { HamburgerIcon, CloseIcon, AddIcon } from "@chakra-ui/icons";
 import { Link } from "react-router-dom";
 
 interface Props {
@@ -92,10 +87,19 @@ export default function Navbar() {
                 />
               </MenuButton>
               <MenuList>
-                <MenuItem> <Link to={"/my-store"}>My Store</Link> </MenuItem>
-                <MenuItem> <Link to={"/my-store"}>Profile</Link></MenuItem>
+                <MenuItem>
+                  {" "}
+                  <Link to={"/my-store"}>My Store</Link>{" "}
+                </MenuItem>
+                <MenuItem>
+                  {" "}
+                  <Link to={"/my-store"}>Profile</Link>
+                </MenuItem>
                 <MenuDivider />
-                <MenuItem> <Link to={"/my-store"}>Logout</Link></MenuItem>
+                <MenuItem>
+                  {" "}
+                  <Link to={"/my-store"}>Logout</Link>
+                </MenuItem>
               </MenuList>
             </Menu>
           </Flex>
