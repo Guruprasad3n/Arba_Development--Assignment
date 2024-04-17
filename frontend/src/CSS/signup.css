@@ -1,0 +1,43 @@
+.main-Login-Signup {
+  height: 700px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 50px;
+  margin-top: 10px;
+}
+
+.form-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+form{
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+    justify-content: center;
+    gap: 25px;
+
+    width: 100%;
+}
+.form-field > input {
+  border-bottom: 1.5px solid rgb(24, 203, 223);
+  width: 100%;
+  outline: none;
+  
+}
+.registerButton{
+    background-color: rgb(24, 203, 223);
+    border-radius: 8px;
+    padding: 5px;
+    font-weight: 700;
+    color: #fff;
+    margin-top: 35px;
+    outline: none;
+}
+.registerButton:hover{
+    background-color: rgb(30, 174, 190);
+transition: .3s all ease-out;
+}
