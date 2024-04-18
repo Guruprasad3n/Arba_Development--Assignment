@@ -1,17 +1,21 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "../CSS/signup.css";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import left from "../../public/Assets/Left.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Heading, Text } from "@chakra-ui/react";
+import { useDispatch } from "react-redux";
+import { loginFailure, loginSuccess } from "../redux/features/Login/authSlice";
 
 export default function Login() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [userName, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const response = await fetch("http://localhost:8000/api/user/login", {
@@ -22,18 +26,32 @@ export default function Login() {
         body: JSON.stringify({ userName: userName, password: password }),
       });
       const data = await response.json();
-
+      console.log("data", data);
       if (response.ok) {
-        console.log("Login successful:", data);
+        const { user, token } = data;
+        dispatch(loginSuccess({ user, token }));
+        localStorage.setItem("userId", JSON.stringify(user));
+        setUsername("");
+        setPassword("");
         alert("Login Success");
+        navigate("/");
       } else {
+        dispatch(loginFailure(data.message));
         alert(data.message);
       }
     } catch (error) {
       console.error("Login error:", error);
+      dispatch(loginFailure("An error occurred during login."));
       alert("An error occurred during login.");
     }
   };
+  const authToken = localStorage.getItem("authToken");
+
+  useEffect(() => {
+    if (authToken) {
+      navigate("/");
+    }
+  }, []);
 
   return (
     <>

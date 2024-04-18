@@ -4,8 +4,14 @@ import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import left from "../../public/Assets/Left.png";
 import { Link, useNavigate } from "react-router-dom";
 import { Heading, Text } from "@chakra-ui/react";
+import { useDispatch } from "react-redux";
+import {
+  signupFailure,
+  signupSuccess,
+} from "../redux/features/Login/authSlice";
 
 export default function Signup() {
+  const dispatch = useDispatch();
   const [username, setUsername] = useState("");
   const [fullname, setFullname] = useState("");
   const [email, setEmail] = useState("");
@@ -19,7 +25,7 @@ export default function Signup() {
   const toggleConfirmPasswordVisibility = () =>
     setShowConfirmPassword(!showConfirmPassword);
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     if (password !== confirmPassword) {
       alert("Passwords do not match");
@@ -43,8 +49,10 @@ export default function Signup() {
       console.log("data", data);
       if (!res.ok) {
         const errorData = await res.json();
+        dispatch(signupFailure(errorData.message));
         throw new Error(errorData.message);
       }
+      dispatch(signupSuccess(data.user));
 
       alert("User registered successfully!");
     } catch (error) {}
