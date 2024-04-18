@@ -14,7 +14,7 @@ const requireSignIn = async (req, res, next) => {
       .status(500)
       .send({
         success: false,
-        message: "Error in Admin Signin Or JWT Expaired",
+        message: "Error in Signin Or JWT Expaired",
       });
   }
 };

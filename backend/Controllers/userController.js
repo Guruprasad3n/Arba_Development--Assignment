@@ -32,9 +32,9 @@ const registerUser = async (req, res) => {
       message: "User Register Successful",
       user: {
         fullName: user.fullName,
-        userName:user.userName,
-        email:user.email,
-        userId : user._id
+        userName: user.userName,
+        email: user.email,
+        userId: user._id,
       },
     });
   } catch (error) {
@@ -70,6 +70,7 @@ const loginUser = async (req, res) => {
         fullName: user.fullName,
         userName: user.userName,
         email: user.email,
+        avatar: user.avatar,
         _id: user._id,
       },
       token,
@@ -144,13 +145,11 @@ const updateUser = async (req, res) => {
       _id: user._id,
     };
 
-    return res
-      .status(200)
-      .send({
-        success: true,
-        message: "Profile updated successfully",
-        user: updatedUser,
-      });
+    return res.status(200).send({
+      success: true,
+      message: "Profile updated successfully",
+      user: updatedUser,
+    });
   } catch (error) {
     console.log(error);
     return res

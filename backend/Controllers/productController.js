@@ -2,6 +2,7 @@ const productModel = require("../Models/productModel");
 const categoryModel = require("../Models/categoryModel");
 const fs = require("fs");
 const slugify = require("slugify");
+const cartModel = require("../Models/cartModel");
 
 const createProduct = async (req, res) => {
   try {
@@ -30,14 +31,24 @@ const createProduct = async (req, res) => {
 
 const getAllProducts = async (req, res) => {
   try {
+    const page = req.query.page || 1;
+    const limit = 12;
+    const skip = (page - 1) * limit;
+
     const products = await productModel
       .find({})
       .populate("category")
-      .limit(8)
+      .skip(skip)
+      .limit(limit)
       .sort({ createdAt: -1 });
+
+    const totalCount = await productModel.countDocuments();
+    const totalPages = Math.ceil(totalCount / limit);
     res.status(200).send({
       success: true,
-      totalCount: products.length,
+      currentPage: page,
+      totalPages: totalPages,
+      totalCount: totalCount,
       message: "Get All Products Success",
       products,
     });
@@ -106,7 +117,83 @@ const updateProduct = async (req, res) => {
       .status(500)
       .send({ success: false, message: "Error In Update Product" });
   }
+
+
 };
+
+const addToCart = async (req, res) => {
+  try {
+    const { productId } = req.params; // Assuming productId is passed in the URL
+    const { userId } = req.user; // Assuming userId is available in the request object after authentication
+
+    // Check if the product exists
+    const product = await productModel.findById(productId);
+    if (!product) {
+      return res.status(404).send({ success: false, message: "Product not found" });
+    }
+
+    // Find the user and update their cart
+    const user = await userModel.findById(userId);
+    if (!user) {
+      return res.status(404).send({ success: false, message: "User not found" });
+    }
+
+    // Add the product to the user's cart
+    user.cart.push(productId);
+    await user.save();
+
+    res.status(200).send({
+      success: true,
+      message: "Product added to cart successfully",
+      product,
+      user: {
+        id: user._id,
+        username: user.username,
+        // Include other user details as needed
+      },
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ success: false, message: "Error while adding to cart" });
+  }
+};
+
+
+// const addToCart = async (req, res) => {
+//   const { productId, price, owner, description } = req.body;
+//   try {
+//     if (!productId || !price || !owner || !description) {
+//       return res
+//         .status(400)
+//         .send({ success: false, message: "Missing required fields" });
+//     }
+
+//     const product = await productModel.findById(productId);
+//     if (!product) {
+//       return res
+//         .status(404)
+//         .send({ success: false, message: "Product not found" });
+//     }
+//     const cart = new cartModel({
+//       productId: product._id,
+//       price: req.body.price,
+//       owner: req.body.owner,
+//       description: req.body.description,
+//     });
+//     await cart.populate('owner');
+//     await cart.populate('productId');
+
+//     await cart.save();
+//     return res
+//       .status(200)
+//       .send({ success: true, message: "Product Added to the Cart", cart });
+//   } catch (error) {
+//     console.log(error);
+//     res
+//       .status(500)
+//       .send({ success: false, message: "Error In Adding to the Cart" });
+//   }
+// };
 
 module.exports = {
   createProduct,
@@ -114,4 +201,5 @@ module.exports = {
   singleProduct,
   deleteProduct,
   updateProduct,
+  addToCart,
 };
