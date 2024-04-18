@@ -7,16 +7,18 @@ const {
   deleteProduct,
   updateProduct,
   addToCart,
+  userProducts,
 } = require("../Controllers/productController");
 const requireSignIn = require("../Middlewares/authMiddleware");
 
 const router = express.Router();
 
-router.post("/create-product", formidable(), createProduct);
+router.post("/create-product", createProduct);
 
 router.get("/get-products", getAllProducts);
 router.get("/get-product/:title", singleProduct);
 
+router.get("/user-products/:userId", userProducts);
 // router.get("/product-photo/:id", getProductPhoto);
 router.delete("/delete-product/:id", deleteProduct);
 router.put("/update-product/:id", formidable(), updateProduct);

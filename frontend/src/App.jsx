@@ -9,6 +9,7 @@ import HomePage from "./Pages/HomePage";
 import AllProducts from "./Pages/AllProducts";
 import Cart from "./Pages/Cart";
 import MyStore from "./Pages/MyStore";
+import ProfilePage from "./Pages/ProfilePage";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -21,6 +22,7 @@ function App() {
         {/* <Route path={"/"} element={<CarouselComponent />} /> */}
         <Route path={"/"} element={<HomePage />} />
         <Route path={"/all-products"} element={<AllProducts />} />
+        <Route path={"/profile"} element={<ProfilePage />} />
         <Route path={"/my-store"} element={<MyStore />} />
         <Route path={"/cart"} element={<Cart />} />
         <Route path={"/login"} element={<Login />} />

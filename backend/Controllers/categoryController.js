@@ -104,6 +104,20 @@ const deleteCategory = async (req, res) => {
   }
 };
 
+// const userCategory = async (req, res) => {
+//   try {
+//     const userName = req.params.userId;
+//     console.log(userId);
+//     const products = await categoryModel.find({ owner: userName });
+//     res.status(200).json({ success: true, products });
+//   } catch (error) {
+//     console.error("Error fetching user products:", error);
+//     res
+//       .status(500)
+//       .json({ success: false, message: "Error fetching user products" });
+//   }
+// };
+
 module.exports = {
   createCategory,
   updateCategory,

@@ -98,7 +98,7 @@ export default function Navbar() {
                   </MenuItem>
                   <MenuItem>
                     {" "}
-                    <Link to={"/my-store"}>Profile</Link>
+                    <Link to={"/profile"}>Profile</Link>
                   </MenuItem>
                   <MenuDivider />
                   <MenuItem onClick={handleLogout}>Logout</MenuItem>

@@ -6,15 +6,22 @@ const cartModel = require("../Models/cartModel");
 
 const createProduct = async (req, res) => {
   try {
-    const { title, description, price, category, image } = req.fields;
-    if (!title || !description || !price || !category || !image) {
+    const { title, description, price, category, image, owner } = req.body;
+    if (!title || !description || !price || !category || !image || !owner) {
       return res
         .status(400)
         .send({ success: false, message: "Missing required fields" });
     }
 
     const slug = slugify(title);
-    const products = new productModel({ ...req.fields, title: slug });
+    const products = new productModel({
+      description,
+      price,
+      category,
+      image,
+      owner,
+      title: slug,
+    });
     await products.save();
     res.status(201).send({
       success: true,
@@ -117,83 +124,33 @@ const updateProduct = async (req, res) => {
       .status(500)
       .send({ success: false, message: "Error In Update Product" });
   }
-
-
 };
 
 const addToCart = async (req, res) => {
   try {
-    const { productId } = req.params; // Assuming productId is passed in the URL
-    const { userId } = req.user; // Assuming userId is available in the request object after authentication
-
-    // Check if the product exists
-    const product = await productModel.findById(productId);
-    if (!product) {
-      return res.status(404).send({ success: false, message: "Product not found" });
-    }
-
-    // Find the user and update their cart
-    const user = await userModel.findById(userId);
-    if (!user) {
-      return res.status(404).send({ success: false, message: "User not found" });
-    }
-
-    // Add the product to the user's cart
-    user.cart.push(productId);
-    await user.save();
-
-    res.status(200).send({
-      success: true,
-      message: "Product added to cart successfully",
-      product,
-      user: {
-        id: user._id,
-        username: user.username,
-        // Include other user details as needed
-      },
-    });
+    const { productId } = req.params;
+    const { userId } = req.user;
   } catch (error) {
     console.log(error);
-    res.status(500).send({ success: false, message: "Error while adding to cart" });
+    res
+      .status(500)
+      .send({ success: false, message: "Error while adding to cart" });
   }
 };
 
+const userProducts = async (req, res) => {
+  try {
+    const userId = req.params.userId;
 
-// const addToCart = async (req, res) => {
-//   const { productId, price, owner, description } = req.body;
-//   try {
-//     if (!productId || !price || !owner || !description) {
-//       return res
-//         .status(400)
-//         .send({ success: false, message: "Missing required fields" });
-//     }
-
-//     const product = await productModel.findById(productId);
-//     if (!product) {
-//       return res
-//         .status(404)
-//         .send({ success: false, message: "Product not found" });
-//     }
-//     const cart = new cartModel({
-//       productId: product._id,
-//       price: req.body.price,
-//       owner: req.body.owner,
-//       description: req.body.description,
-//     });
-//     await cart.populate('owner');
-//     await cart.populate('productId');
-
-//     await cart.save();
-//     return res
-//       .status(200)
-//       .send({ success: true, message: "Product Added to the Cart", cart });
-//   } catch (error) {
-//     console.log(error);
-//     res
-//       .status(500)
-//       .send({ success: false, message: "Error In Adding to the Cart" });
-//   }
-// };
+    const products = await productModel.find({ owner: userId });
+    res.status(200).json({ success: true, products });
+  } catch (error) {
+    console.error("Error fetching user products:", error);
+    res
+      .status(500)
+      .json({ success: false, message: "Error fetching user products" });
+  }
+};
 
 module.exports = {
   createProduct,
@@ -202,4 +159,5 @@ module.exports = {
   deleteProduct,
   updateProduct,
   addToCart,
+  userProducts,
 };

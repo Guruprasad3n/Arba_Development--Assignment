@@ -21,11 +21,12 @@ const productSchema = new mongoose.Schema(
     },
     image: {
       type: String,
-      require: true,
+      required: true,
     },
     owner: {
       type: mongoose.ObjectId,
       ref: "User",
+      required: true,
     },
   },
   {
