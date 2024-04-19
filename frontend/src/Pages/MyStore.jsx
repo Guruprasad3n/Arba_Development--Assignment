@@ -37,7 +37,7 @@ export default function MyStore() {
   const fetchCategory = async () => {
     try {
       const response = await fetch(
-        "http://localhost:8000/api/category/all-categories"
+        "https://arba-6hjr.onrender.com/api/category/all-categories"
       );
       if (response.ok) {
         const data = await response.json();
@@ -53,7 +53,7 @@ export default function MyStore() {
   const deleteCategory = async (id) => {
     try {
       const response = await fetch(
-        `http://localhost:8000/api/category/delete-category/${id}`,
+        `https://arba-6hjr.onrender.com/api/category/delete-category/${id}`,
         {
           method: "DELETE",
           headers: {
@@ -82,7 +82,7 @@ export default function MyStore() {
       }
 
       const response = await fetch(
-        `http://localhost:8000/api/product/user-products/${userId._id}`
+        `https://arba-6hjr.onrender.com/api/product/user-products/${userId._id}`
       );
       if (response.ok) {
         const data = await response.json();
@@ -99,7 +99,7 @@ export default function MyStore() {
   const deleteProduct = async (id) => {
     try {
       const response = await fetch(
-        `http://localhost:8000/api/product//delete-product/${id}`,
+        `https://arba-6hjr.onrender.com/api/product//delete-product/${id}`,
         {
           method: "DELETE",
           headers: {

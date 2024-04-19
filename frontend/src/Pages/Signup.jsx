@@ -32,20 +32,22 @@ export default function Signup() {
       return;
     }
     try {
-      const res = await fetch(`http://localhost:8000/api/user/register`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          fullName: fullname,
-          userName: username,
-          email: email,
-          password: password,
-        }),
-      });
+      const res = await fetch(
+        `https://arba-6hjr.onrender.com/api/user/register`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            fullName: fullname,
+            userName: username,
+            email: email,
+            password: password,
+          }),
+        }
+      );
       const data = await res.json();
-      navigate("/login");
       console.log("data", data);
       if (!res.ok) {
         const errorData = await res.json();
@@ -53,6 +55,7 @@ export default function Signup() {
         throw new Error(errorData.message);
       }
       dispatch(signupSuccess(data.user));
+      navigate("/login");
 
       alert("User registered successfully!");
     } catch (error) {}

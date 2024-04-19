@@ -27,8 +27,7 @@ export default function ProfilePage() {
   const [fullNameNew, setFullNameNew] = useState("");
   const [isUpdateProfileModalOpen, setIsUpdateProfileModalOpen] =
     useState(false);
-  const [isUserNameModalOpen, setIsUserNameModalOpen] =
-    useState(false);
+  const [isUserNameModalOpen, setIsUserNameModalOpen] = useState(false);
   const [avatarNew, setAvatarNew] = useState("");
 
   useEffect(() => {
@@ -37,7 +36,7 @@ export default function ProfilePage() {
 
       try {
         const response = await fetch(
-          `http://localhost:8000/api/user/${userId._id}`
+          `https://arba-6hjr.onrender.com/api/user/${userId._id}`
         );
         const data = await response.json();
 
@@ -67,10 +66,9 @@ export default function ProfilePage() {
         avatar: avatarNew,
         newPassword: passwordNew,
       };
-      console.log(updatedProfileData);
 
       const response = await fetch(
-        `http://localhost:8000/api/user/${user._id}`,
+        `https://arba-6hjr.onrender.com/api/user/${user._id}`,
         {
           method: "PUT",
           headers: {
@@ -86,7 +84,7 @@ export default function ProfilePage() {
         setUser(data.user);
         console.log("Profile updated successfully");
         setIsUpdateProfileModalOpen(false);
-        setisUserNameModalOpen(false);
+        setIsUserNameModalOpen(false);
         setIsChangeAvatarModalOpen(false);
       } else {
         console.error(data.message);
@@ -101,7 +99,7 @@ export default function ProfilePage() {
         Profile Page
       </Heading>
       <Flex>
-        <Container maxW={"xl"}  p={5}>
+        <Container maxW={"xl"} p={5}>
           {user ? (
             <>
               <Box
@@ -132,7 +130,14 @@ export default function ProfilePage() {
                 mt={5}
                 p={2}
               >
-                <button  style={{backgroundColor:"#66B2B2", color:"white", padding:"5px 50px"}} onClick={() => setIsUserNameModalOpen(true)}>
+                <button
+                  style={{
+                    backgroundColor: "#66B2B2",
+                    color: "white",
+                    padding: "5px 50px",
+                  }}
+                  onClick={() => setIsUserNameModalOpen(true)}
+                >
                   Update Profile
                 </button>
               </Box>
@@ -144,10 +149,24 @@ export default function ProfilePage() {
       </Flex>
       <Divider m={5} />
 
-      <Container maxW={"xl"} display={"flex"} justifyContent={"center"} alignItems={"center"} gap={10}>
-        
-        <TermsAndCondition/>
-        <button  style={{backgroundColor:"#66B2B2", color:"white", padding:"5px 50px"}} onClick={() => setIsUpdateProfileModalOpen(true)}>Change Password</button>
+      <Container
+        maxW={"xl"}
+        display={"flex"}
+        justifyContent={"center"}
+        alignItems={"center"}
+        gap={10}
+      >
+        <TermsAndCondition />
+        <button
+          style={{
+            backgroundColor: "#66B2B2",
+            color: "white",
+            padding: "5px 50px",
+          }}
+          onClick={() => setIsUpdateProfileModalOpen(true)}
+        >
+          Change Password
+        </button>
       </Container>
 
       {/* Avatar Model */}
@@ -219,7 +238,7 @@ export default function ProfilePage() {
                 placeContent={"Enter Password"}
               />
             </FormControl>
-            <Button mt={4} onClick={handleUpdateProfile}>
+            <Button mt={4} onClick={handleUpdateProfile} >
               Submit
             </Button>
           </ModalBody>

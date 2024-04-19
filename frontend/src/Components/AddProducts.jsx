@@ -31,7 +31,7 @@ export default function AddProducts() {
   const fetchCategories = async () => {
     try {
       const response = await fetch(
-        "http://localhost:8000/api/category/all-categories"
+        "https://arba-6hjr.onrender.com/api/category/all-categories"
       );
       if (response.ok) {
         const data = await response.json();
@@ -45,7 +45,6 @@ export default function AddProducts() {
   };
 
   useEffect(() => {
-    // Retrieve userId from localStorage
     const userId = JSON.parse( localStorage.getItem("userId"));
     if (userId) {
       setOwner(userId);
@@ -55,7 +54,7 @@ export default function AddProducts() {
   const handleSave = async () => {
     try {
       const response = await fetch(
-        "http://localhost:8000/api/product/create-product",
+        "https://arba-6hjr.onrender.com/api/product/create-product",
         {
           method: "POST",
           headers: {
@@ -76,7 +75,6 @@ export default function AddProducts() {
         console.log("Product created successfully:", data);
         onClose();
       } else {
-        // Handle failure
         console.error("Failed to create product:", data.message);
       }
     } catch (error) {

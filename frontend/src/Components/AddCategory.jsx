@@ -24,8 +24,9 @@ export default function AddCategory() {
 
   const handleSave = async () => {
     try {
+
       const response = await fetch(
-        "http://localhost:8000/api/category/create-category",
+        "https://arba-6hjr.onrender.com/api/category/create-category",
         {
           method: "POST",
           headers: {
@@ -36,11 +37,9 @@ export default function AddCategory() {
       );
       const data = await response.json();
       if (response.ok) {
-        // Handle success
         console.log("Category created successfully:", data);
         onClose();
       } else {
-        // Handle failure
         console.error("Failed to create category:", data.message);
       }
     } catch (error) {

@@ -18,7 +18,7 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:8000/api/user/login", {
+      const response = await fetch("https://arba-6hjr.onrender.com/api/user/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -51,7 +51,7 @@ export default function Login() {
     if (authToken) {
       navigate("/");
     }
-  }, []);
+  }, [authToken]);
 
   return (
     <>

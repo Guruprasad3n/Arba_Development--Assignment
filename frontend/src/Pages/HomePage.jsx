@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import CarouselComponent from "../Components/CarouselComponent";
 import { addToCart, removeFromCart } from "../utils/cartUtils";
 import { Box, Grid, GridItem, Button, Avatar, Heading } from "@chakra-ui/react";
@@ -7,26 +7,9 @@ import TermsAndCondition from "../Components/TermsAndCondition";
 
 export default function HomePage() {
   const [products, setProducts] = useState([]);
+  const navigate = useNavigate()
 
   useEffect(() => {
-    // const fetchProducts = async () => {
-    //   try {
-    //     const response = await fetch(
-    //       "http://localhost:8000/api/product/get-products"
-    //     );
-    //     if (response.ok) {
-    //       const data = await response.json();
-    //       console.log(data.products);
-    //       setProducts(data.products.slice(0, 8));
-    //     } else {
-    //       throw new Error("Failed to fetch products");
-    //     }
-    //   } catch (error) {
-    //     console.error("Error fetching products:", error);
-    //   }
-    // };
-
-    // fetchProducts();
 
     const fetchProducts = async () => {
       try {
@@ -37,7 +20,7 @@ export default function HomePage() {
         }
 
         const response = await fetch(
-          `http://localhost:8000/api/product/user-products/${userId._id}`
+          `https://arba-6hjr.onrender.com/api/product/user-products/${userId._id}`
         );
         if (response.ok) {
           const data = await response.json();
@@ -51,10 +34,17 @@ export default function HomePage() {
     };
 
     fetchProducts();
-    const authToken = localStorage.getItem("authToken");
+    // const authToken = localStorage.getItem("authToken");
     //   if (!authToken) {
     //     navigate("/login");
     //   }
+  }, []);
+  const authToken = localStorage.getItem("authToken");
+
+  useEffect(() => {
+    if (!authToken) {
+      navigate("/login");
+    }
   }, []);
 
   return (
@@ -113,7 +103,13 @@ export default function HomePage() {
                 >
                   {product.description}
                 </p>
-                <p style={{ marginTop: "10px",  color:"teal", marginBottom:"4px" }}>
+                <p
+                  style={{
+                    marginTop: "10px",
+                    color: "teal",
+                    marginBottom: "4px",
+                  }}
+                >
                   RS. {product.price}
                 </p>
                 {localStorage.getItem("cartItems") &&
@@ -121,7 +117,14 @@ export default function HomePage() {
                   (item) => item._id === product._id
                 ) ? (
                   <div
-                  style={{backgroundColor:"#66B2B2", color:"#fff", padding:"4px 10px", display:"flex", alignItems:"center", justifyContent:"space-evenly"}}
+                    style={{
+                      backgroundColor: "#66B2B2",
+                      color: "#fff",
+                      padding: "4px 10px",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-evenly",
+                    }}
                   >
                     <button
                       style={{
@@ -159,7 +162,12 @@ export default function HomePage() {
                   </div>
                 ) : (
                   <button
-                  style={{backgroundColor:"#66B2B2", color:"#fff", padding:"4px 10px", width:"100%"}}
+                    style={{
+                      backgroundColor: "#66B2B2",
+                      color: "#fff",
+                      padding: "4px 10px",
+                      width: "100%",
+                    }}
                     onClick={() => addToCart(product, setProducts)}
                   >
                     Add to Cart
@@ -171,16 +179,23 @@ export default function HomePage() {
         </Grid>
         <div style={{ textAlign: "right", marginTop: "20px" }}>
           <Link to="/all-products">
-            <button style={{backgroundColor:"#66B2B2", color:"#fff", padding:"4px 10px"}} borderRadius={0}>
+            <button
+              style={{
+                backgroundColor: "#66B2B2",
+                color: "#fff",
+                padding: "4px 10px",
+              }}
+              borderRadius={0}
+            >
               Show All Products {">>"}
             </button>
           </Link>
         </div>
       </div>
       {localStorage.getItem("termsAccepted") !== "true" && (
-       <div style={{display:"none"}}>
-         <TermsAndCondition />
-       </div>
+        <div style={{ display: "none" }}>
+          <TermsAndCondition />
+        </div>
       )}
     </div>
   );

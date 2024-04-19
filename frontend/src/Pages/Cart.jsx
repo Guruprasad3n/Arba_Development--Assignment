@@ -90,19 +90,31 @@ export default function Cart() {
                   RS. {product.price}
                 </p>
                 <div
-                  style={{backgroundColor:"#66B2B2", color:"#fff", padding:"4px 10px", display:"flex", alignItems:"center", justifyContent:"space-evenly"}}
+                  style={{
+                    backgroundColor: "#66B2B2",
+                    color: "#fff",
+                    padding: "4px 10px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-evenly",
+                  }}
                 >
                   <button
-                   style={{fontWeight:"700", fontSize:"20px" }}
+                    style={{ fontWeight: "700", fontSize: "20px" }}
                     onClick={() => handleDecrement(product._id)}
                   >
                     -
                   </button>
-                  <Text fontWeight={700} color={"#fff"} display="inline-block" mx={2}>
+                  <Text
+                    fontWeight={700}
+                    color={"#fff"}
+                    display="inline-block"
+                    mx={2}
+                  >
                     {product.count}
                   </Text>
                   <button
-                   style={{fontWeight:"700", fontSize:"20px" }}
+                    style={{ fontWeight: "700", fontSize: "20px" }}
                     onClick={() => handleIncrement(product._id)}
                   >
                     +
@@ -116,16 +128,23 @@ export default function Cart() {
       {cartItems.length > 0 && (
         <div style={{ textAlign: "right", marginTop: "20px" }}>
           <Link to="/checkout">
-            <button style={{backgroundColor:"#66B2B2", padding:"4px 50px", color:"#fff", fontWeight:"bold"}} >
+            <button
+              style={{
+                backgroundColor: "#66B2B2",
+                padding: "4px 50px",
+                color: "#fff",
+                fontWeight: "bold",
+              }}
+            >
               Checkout
             </button>
           </Link>
         </div>
       )}
-     {localStorage.getItem("termsAccepted") !== "true" && (
-       <div style={{display:"none"}}>
-         <TermsAndCondition />
-       </div>
+      {localStorage.getItem("termsAccepted") !== "true" && (
+        <div style={{ display: "none" }}>
+          <TermsAndCondition />
+        </div>
       )}
     </Box>
   );

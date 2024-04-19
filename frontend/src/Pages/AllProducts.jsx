@@ -21,7 +21,7 @@ export default function AllProducts() {
         }
 
         const response = await fetch(
-          `http://localhost:8000/api/product/user-products/${userId._id}?page=${currentPage}`
+          `https://arba-6hjr.onrender.com/api/product/user-products/${userId._id}?page=${currentPage}`
         );
         if (response.ok) {
           const data = await response.json();

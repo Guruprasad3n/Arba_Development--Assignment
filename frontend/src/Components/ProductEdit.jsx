@@ -30,7 +30,7 @@ export default function ProductEdit({ product, onUpdate }) {
   const fetchCategory = async () => {
     try {
       const response = await fetch(
-        "http://localhost:8000/api/category/all-categories"
+        "https://arba-6hjr.onrender.com/api/category/all-categories"
       );
       if (response.ok) {
         const data = await response.json();
@@ -46,7 +46,7 @@ export default function ProductEdit({ product, onUpdate }) {
   const handleSave = async () => {
     try {
       const response = await fetch(
-        `http://localhost:8000/api/product/update-product/${product._id}`,
+        `https://arba-6hjr.onrender.com/api/product/update-product/${product._id}`,
         {
           method: "PUT",
           headers: {

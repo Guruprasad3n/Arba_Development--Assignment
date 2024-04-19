@@ -29,7 +29,6 @@ export const authSlice = createSlice({
       state.user = action.payload.user;
       state.token = action.payload.token;
       state.error = null;
-      localStorage.setItem("authToken", action.payload.token);
     },
     signupFailure: (state, action) => {
       state.isAuthenticated = false;
