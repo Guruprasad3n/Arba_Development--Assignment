@@ -113,7 +113,7 @@ const forgotPassword = async (req, res) => {
   }
 };
 const updateUser = async (req, res) => {
-  const userId = req.user.userId;
+  const userId = req.params.userId;
   const { fullName, avatar, newPassword } = req.body;
 
   try {
@@ -142,6 +142,7 @@ const updateUser = async (req, res) => {
       fullName: user.fullName,
       email: user.email,
       avatar: user.avatar,
+      userName: user.userName,
       _id: user._id,
     };
 
@@ -157,6 +158,39 @@ const updateUser = async (req, res) => {
       .send({ success: false, message: "Failed to update profile", error });
   }
 };
+
+const getUserById = async (req, res) => {
+  const userId = req.params.userId;
+
+  try {
+    const user = await userModel.findById(userId);
+    if (!user) {
+      return res
+        .status(404)
+        .send({ success: false, message: "User not found" });
+    }
+
+    const userData = {
+      fullName: user.fullName,
+      userName: user.userName,
+      email: user.email,
+      avatar: user.avatar,
+      _id: user._id,
+    };
+
+    return res.status(200).send({
+      success: true,
+      message: "User found successfully",
+      user: userData,
+    });
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(500)
+      .send({ success: false, message: "Failed to fetch user", error });
+  }
+};
+
 const deleteUser = async (req, res) => {
   const userId = req.user.userId;
   try {
@@ -184,5 +218,6 @@ module.exports = {
   loginUser,
   forgotPassword,
   updateUser,
+  getUserById,
   deleteUser,
 };
