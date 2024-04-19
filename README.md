@@ -89,12 +89,13 @@ kryzen---Assignment/
 
 
 ### API Endpoints
- - User 
-POST /register - Register User
-POST /login - Login User
-POST /forgot-password  -  Change Password
-GET /:userId  -  Get User By Id
-PODT /:userId  -  Update User
+ - User
+ --------- 
+* POST /register - Register User
+* POST /login - Login User
+* POST /forgot-password  -  Change Password
+* GET  /:userId  -  Get User By Id
+* POST /:userId  -  Update User
 
 ## Technology Stack
 
