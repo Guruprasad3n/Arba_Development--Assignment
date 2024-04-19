@@ -5,8 +5,9 @@ export default function Pagination({ currentPage, totalPages, onPageChange }) {
   return (
     <Flex justifyContent="center" alignItems="center" mt={4}>
       <Button
-        variant="outline"
-        colorScheme="teal"
+       borderRadius={0}
+       backgroundColor={"#1ec3cd"}
+       color={"#fff"}
         disabled={currentPage === 1}
         onClick={() => onPageChange(currentPage - 1)}
         mr={2}
@@ -17,7 +18,7 @@ export default function Pagination({ currentPage, totalPages, onPageChange }) {
         <Button
           key={number}
           variant={number === currentPage ? "solid" : "outline"}
-          colorScheme="teal"
+          colorScheme="#1ec3cd"
           onClick={() => onPageChange(number)}
           mx={1}
         >
@@ -25,8 +26,9 @@ export default function Pagination({ currentPage, totalPages, onPageChange }) {
         </Button>
       ))}
       <Button
-        variant="outline"
-        colorScheme="teal"
+        borderRadius={0}
+        backgroundColor={"#1ec3cd"}
+        color={"#fff"}
         disabled={currentPage === totalPages-1}
         onClick={() => onPageChange(currentPage + 1)}
         ml={2}

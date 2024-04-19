@@ -106,7 +106,7 @@ export default function HomePage() {
                 <p
                   style={{
                     marginTop: "10px",
-                    color: "teal",
+                    color: "#1ec3cd",
                     marginBottom: "4px",
                   }}
                 >
@@ -118,7 +118,7 @@ export default function HomePage() {
                 ) ? (
                   <div
                     style={{
-                      backgroundColor: "#66B2B2",
+                      backgroundColor: "#1ec3cd",
                       color: "#fff",
                       padding: "4px 10px",
                       display: "flex",
@@ -163,7 +163,7 @@ export default function HomePage() {
                 ) : (
                   <button
                     style={{
-                      backgroundColor: "#66B2B2",
+                      backgroundColor: "#1ec3cd",
                       color: "#fff",
                       padding: "4px 10px",
                       width: "100%",
@@ -181,7 +181,7 @@ export default function HomePage() {
           <Link to="/all-products">
             <button
               style={{
-                backgroundColor: "#66B2B2",
+                backgroundColor: "#1ec3cd",
                 color: "#fff",
                 padding: "4px 10px",
               }}

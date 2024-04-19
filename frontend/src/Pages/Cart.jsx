@@ -91,7 +91,7 @@ export default function Cart() {
                 </p>
                 <div
                   style={{
-                    backgroundColor: "#66B2B2",
+                    backgroundColor: "#1ec3cd",
                     color: "#fff",
                     padding: "4px 10px",
                     display: "flex",
@@ -130,7 +130,7 @@ export default function Cart() {
           <Link to="/checkout">
             <button
               style={{
-                backgroundColor: "#66B2B2",
+                backgroundColor: "#1ec3cd",
                 padding: "4px 50px",
                 color: "#fff",
                 fontWeight: "bold",

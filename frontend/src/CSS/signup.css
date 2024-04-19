@@ -23,13 +23,13 @@ form{
     width: 100%;
 }
 .form-field > input {
-  border-bottom: 1.5px solid rgb(24, 203, 223);
+  border-bottom: 1.5px solid #2ab2ce;
   width: 100%;
   outline: none;
   
 }
 .registerButton{
-    background-color: rgb(24, 203, 223);
+    background-color: #2ab2ce;
     border-radius: 8px;
     padding: 5px;
     font-weight: 700;

@@ -145,15 +145,15 @@ export default function MyStore() {
         <Container maxW={"750px"}>
           <Tabs isFitted variant="unstyled">
             <TabList mb="1em">
-              <Tab _selected={{ color: "white", bg: "#66B2B2" }}>Category</Tab>
-              <Tab _selected={{ color: "white", bg: "#66B2B2" }}>Products</Tab>
+              <Tab _selected={{ color: "white", bg: "#1ec3cd" }}>Category</Tab>
+              <Tab _selected={{ color: "white", bg: "#1ec3cd" }}>Products</Tab>
             </TabList>
             <TabPanels>
               <TabPanel>
                 <Flex gap={2} mb={2}>
                   <button
                     style={{
-                      backgroundColor: "#66B2B2",
+                      backgroundColor: "#1ec3cd",
                       color: "#fff",
                       padding: "4px 20px",
                     }}
@@ -163,7 +163,7 @@ export default function MyStore() {
                   </button>
                   <button
                     style={{
-                      backgroundColor: "#66B2B2",
+                      backgroundColor: "#1ec3cd",
                       color: "#fff",
                       padding: "4px 20px",
                     }}
@@ -221,7 +221,7 @@ export default function MyStore() {
                 <Flex gap={2} mb={2}>
                   <button
                     style={{
-                      backgroundColor: "#66B2B2",
+                      backgroundColor: "#1ec3cd",
                       color: "#fff",
                       padding: "4px 20px",
                     }}
@@ -231,7 +231,7 @@ export default function MyStore() {
                   </button>
                   <button
                     style={{
-                      backgroundColor: "#66B2B2",
+                      backgroundColor: "#1ec3cd",
                       color: "#fff",
                       padding: "4px 20px",
                     }}
@@ -274,7 +274,7 @@ export default function MyStore() {
                             />
                             {"|"}
                             <button
-                              style={{ fontWeight: "bold" }}
+                              style={{ fontWeight: "bold",  }}
                               onClick={() => deleteProduct(e._id)}
                             >
                               Delete

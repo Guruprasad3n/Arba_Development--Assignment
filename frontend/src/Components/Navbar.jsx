@@ -50,7 +50,7 @@ export default function Navbar() {
       <Box bg={useColorModeValue("gray.100", "gray.900")} px={4}>
         <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
           <HStack spacing={8} alignItems={"center"}>
-            <Box>
+            <Box backgroundColor={"#1ec3cd"} py={1} px={7} color={"#fff"}>
               <Link to="/">Logo</Link>
             </Box>
             <HStack
@@ -62,10 +62,10 @@ export default function Navbar() {
           </HStack>
           <Flex alignItems={"center"} gap={5}>
             <Button as={Link} to={"/cart"}>
-              <FaCartShopping />
+              <FaCartShopping fontSize={"1.9rem"}  color="#1ec3cd" />
               {cartItemCount > 0 && (
                 <Box
-                  bg="red.400"
+                  bg="green"
                   color="white"
                   fontSize="xs"
                   fontWeight="bold"

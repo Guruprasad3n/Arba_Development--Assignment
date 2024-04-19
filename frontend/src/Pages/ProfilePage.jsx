@@ -16,7 +16,9 @@ import {
   FormLabel,
   Input,
   Text,
+  IconButton,
 } from "@chakra-ui/react";
+import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { useEffect, useState } from "react";
 import TermsAndCondition from "../Components/TermsAndCondition";
 
@@ -29,6 +31,12 @@ export default function ProfilePage() {
     useState(false);
   const [isUserNameModalOpen, setIsUserNameModalOpen] = useState(false);
   const [avatarNew, setAvatarNew] = useState("");
+
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleTogglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -132,7 +140,7 @@ export default function ProfilePage() {
               >
                 <button
                   style={{
-                    backgroundColor: "#66B2B2",
+                    backgroundColor: "#1ec3cd",
                     color: "white",
                     padding: "5px 50px",
                   }}
@@ -159,7 +167,7 @@ export default function ProfilePage() {
         <TermsAndCondition />
         <button
           style={{
-            backgroundColor: "#66B2B2",
+            backgroundColor: "#1ec3cd",
             color: "white",
             padding: "5px 50px",
           }}
@@ -187,7 +195,13 @@ export default function ProfilePage() {
                 value={avatarNew}
               />
             </FormControl>
-            <Button mt={4} onClick={handleUpdateProfile}>
+            <Button
+              borderRadius={0}
+              backgroundColor={"#1ec3cd"}
+              color={"#fff"}
+              mt={4}
+              onClick={handleUpdateProfile}
+            >
               Submit
             </Button>
           </ModalBody>
@@ -209,10 +223,16 @@ export default function ProfilePage() {
                 type="text"
                 value={fullNameNew}
                 onChange={(e) => setFullNameNew(e.target.value)}
-                placeContent={"Enter Full Name"}
+                placeholder={"Enter Full Name"}
               />
             </FormControl>
-            <Button mt={4} onClick={handleUpdateProfile}>
+            <Button
+              borderRadius={0}
+              backgroundColor={"#1ec3cd"}
+              color={"#fff"}
+              mt={4}
+              onClick={handleUpdateProfile}
+            >
               Submit
             </Button>
           </ModalBody>
@@ -228,17 +248,35 @@ export default function ProfilePage() {
         <ModalContent>
           <ModalHeader>Update Profile</ModalHeader>
           <ModalCloseButton />
+
           <ModalBody>
             <FormControl mt={4}>
               <FormLabel>New Password</FormLabel>
-              <Input
-                type="password"
+              <input
+              style={{borderBottom:"2px solid #1ec3cd", padding:"10px", outline:"none"}}
+                type={showPassword ? "text" : "password"}
                 value={passwordNew}
                 onChange={(e) => setPetpasswordNew(e.target.value)}
-                placeContent={"Enter Password"}
+                placeholder={"Enter Password"}
+              />
+              <IconButton
+                icon={showPassword ? <ViewOffIcon /> : <ViewIcon />}
+                onClick={handleTogglePasswordVisibility}
+                aria-label={showPassword ? "Hide Password" : "Show Password"}
+                position="absolute"
+                right="160px"
+                top="72%"
+                transform="translateY(-50%)"
+                backgroundColor={"none"}
               />
             </FormControl>
-            <Button mt={4} onClick={handleUpdateProfile} >
+            <Button
+              borderRadius={0}
+              mt={4}
+              onClick={handleUpdateProfile}
+              backgroundColor={"#1ec3cd"}
+              color={"#fff"}
+            >
               Submit
             </Button>
           </ModalBody>

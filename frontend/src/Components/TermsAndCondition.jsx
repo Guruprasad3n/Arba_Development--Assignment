@@ -46,7 +46,7 @@ export default function TermsAndCondition() {
     <>
       <button
         style={{
-          backgroundColor: "#66B2B2",
+          backgroundColor: "#1ec3cd",
           color: "white",
           padding: "5px 50px",
         }}
@@ -100,7 +100,7 @@ export default function TermsAndCondition() {
             >
               <button
                 style={{
-                  backgroundColor: "#66B2B2",
+                  backgroundColor: "#1ec3cd",
                   color: "white",
                   padding: "5px 50px",
                 }}
@@ -110,7 +110,7 @@ export default function TermsAndCondition() {
               </button>
               <button
                 style={{
-                  backgroundColor: "#66B2B2",
+                  backgroundColor: "#1ec3cd",
                   color: "white",
                   padding: "5px 50px",
                 }}

@@ -89,7 +89,7 @@ export default function AddProducts() {
     <>
       <button
         style={{
-          backgroundColor:"#66B2B2",
+          backgroundColor:"#1ec3cd",
           color: "#fff",
           padding: "4px 20px",
         }}
@@ -163,10 +163,10 @@ export default function AddProducts() {
           </ModalBody>
 
           <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={handleSave}>
+            <button style={{color:"#fff", backgroundColor:"#1ec3cd", padding:"6px 30px", }}  onClick={handleSave}>
               Save
-            </Button>
-            <Button onClick={onClose}>Cancel</Button>
+            </button>
+            <button style={{color:"#fff", backgroundColor:"#1ec3cd", padding:"6px 30px", marginLeft:"20px" }} onClick={onClose}>Cancel</button>
           </ModalFooter>
         </ModalContent>
       </Modal>

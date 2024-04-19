@@ -135,7 +135,7 @@ export default function AllProducts() {
                 <p
                   style={{
                     marginTop: "10px",
-                    color: "teal",
+                    color: "#1ec3cd",
                     marginBottom: "4px",
                   }}
                 >
@@ -147,7 +147,7 @@ export default function AllProducts() {
                     color={"#fff"}
                     fontSize={"25px"}
                     fontWeight={700}
-                    backgroundColor={"#66B2B2"}
+                    backgroundColor={"#1ec3cd"}
                     display={"flex"}
                     justifyContent={"space-around"}
                     alignItems={"center"}
@@ -173,7 +173,7 @@ export default function AllProducts() {
                     style={{
                       color: "#fff",
                       fontWeight: "700",
-                      backgroundColor: "#66B2B2",
+                      backgroundColor: "#1ec3cd",
                       width: "100%",
                       padding: "4px 0px",
                     }}
