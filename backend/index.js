@@ -20,7 +20,7 @@ app.use("/api/product", ProductRouter);
 //   res.send("Welcome ARBA");
 // });
 
-const Port = process.env.port || 5000;
+const Port = process.env.PORT || 5000;
 app.listen(Port, async () => {
   console.log(`Server started at http://localhost:${Port}`);
 });
