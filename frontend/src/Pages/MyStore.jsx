@@ -19,9 +19,20 @@ import CategoryEdit from "../Components/CategoryEdit";
 import ProductEdit from "../Components/ProductEdit";
 import AddCategory from "../Components/AddCategory";
 import AddProducts from "../Components/AddProducts";
+import TermsAndCondition from "../Components/TermsAndCondition";
 export default function MyStore() {
   const [categoryData, setCategoryData] = useState([]);
   const [productData, setProductData] = useState([]);
+
+  const [refresh, setRefresh] = useState(false);
+
+  const handleRefresh = () => {
+    setRefresh(!refresh);
+  };
+
+  const handleProductRefresh = () => {
+    setRefresh(!refresh);
+  };
 
   const fetchCategory = async () => {
     try {
@@ -112,9 +123,8 @@ export default function MyStore() {
   useEffect(() => {
     fetchCategory();
     fetchProduct();
-  }, []);
+  }, [refresh]);
   const onUpdateCategory = (updatedCategory) => {
-    // Update the category data
     setCategoryData((prevCategoryData) =>
       prevCategoryData.map((category) =>
         category._id === updatedCategory._id ? updatedCategory : category
@@ -122,7 +132,6 @@ export default function MyStore() {
     );
   };
   const onUpdateProduct = (updatedProduct) => {
-    // Update the product data
     setProductData((prevProductData) =>
       prevProductData.map((product) =>
         product._id === updatedProduct._id ? updatedProduct : product
@@ -136,39 +145,31 @@ export default function MyStore() {
         <Container maxW={"750px"}>
           <Tabs isFitted variant="unstyled">
             <TabList mb="1em">
-              <Tab _selected={{ color: "white", bg: "blue.500" }}>Category</Tab>
-              <Tab _selected={{ color: "white", bg: "blue.500" }}>Products</Tab>
+              <Tab _selected={{ color: "white", bg: "#66B2B2" }}>Category</Tab>
+              <Tab _selected={{ color: "white", bg: "#66B2B2" }}>Products</Tab>
             </TabList>
             <TabPanels>
               <TabPanel>
                 <Flex gap={2} mb={2}>
                   <button
                     style={{
-                      backgroundColor: "teal",
+                      backgroundColor: "#66B2B2",
                       color: "#fff",
                       padding: "4px 20px",
                     }}
+                    onClick={handleRefresh}
                   >
                     Refresh
                   </button>
                   <button
                     style={{
-                      backgroundColor: "teal",
+                      backgroundColor: "#66B2B2",
                       color: "#fff",
                       padding: "4px 20px",
                     }}
                   >
                     Filter
                   </button>
-                  {/* <button
-                    style={{
-                      backgroundColor: "teal",
-                      color: "#fff",
-                      padding: "4px 20px",
-                    }}
-                  >
-                    Add
-                  </button> */}
                   <AddCategory />
                 </Flex>
                 <Table size="sm">
@@ -220,16 +221,17 @@ export default function MyStore() {
                 <Flex gap={2} mb={2}>
                   <button
                     style={{
-                      backgroundColor: "teal",
+                      backgroundColor: "#66B2B2",
                       color: "#fff",
                       padding: "4px 20px",
                     }}
+                    onClick={handleProductRefresh}
                   >
                     Refresh
                   </button>
                   <button
                     style={{
-                      backgroundColor: "teal",
+                      backgroundColor: "#66B2B2",
                       color: "#fff",
                       padding: "4px 20px",
                     }}
@@ -287,7 +289,13 @@ export default function MyStore() {
             </TabPanels>
           </Tabs>
         </Container>
+
       </Flex>
+      {localStorage.getItem("termsAccepted") !== "true" && (
+       <div style={{display:"none"}}>
+         <TermsAndCondition />
+       </div>
+      )}
     </>
   );
 }

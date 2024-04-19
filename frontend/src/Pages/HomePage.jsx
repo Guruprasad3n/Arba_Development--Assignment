@@ -3,19 +3,44 @@ import { Link } from "react-router-dom";
 import CarouselComponent from "../Components/CarouselComponent";
 import { addToCart, removeFromCart } from "../utils/cartUtils";
 import { Box, Grid, GridItem, Button, Avatar, Heading } from "@chakra-ui/react";
+import TermsAndCondition from "../Components/TermsAndCondition";
 
 export default function HomePage() {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
+    // const fetchProducts = async () => {
+    //   try {
+    //     const response = await fetch(
+    //       "http://localhost:8000/api/product/get-products"
+    //     );
+    //     if (response.ok) {
+    //       const data = await response.json();
+    //       console.log(data.products);
+    //       setProducts(data.products.slice(0, 8));
+    //     } else {
+    //       throw new Error("Failed to fetch products");
+    //     }
+    //   } catch (error) {
+    //     console.error("Error fetching products:", error);
+    //   }
+    // };
+
+    // fetchProducts();
+
     const fetchProducts = async () => {
       try {
+        const userId = JSON.parse(localStorage.getItem("userId"));
+        if (!userId) {
+          console.error("User ID not found in localStorage");
+          return;
+        }
+
         const response = await fetch(
-          "http://localhost:8000/api/product/get-products"
+          `http://localhost:8000/api/product/user-products/${userId._id}`
         );
         if (response.ok) {
           const data = await response.json();
-          console.log(data.products);
           setProducts(data.products.slice(0, 8));
         } else {
           throw new Error("Failed to fetch products");
@@ -27,9 +52,9 @@ export default function HomePage() {
 
     fetchProducts();
     const authToken = localStorage.getItem("authToken");
-    if (!authToken) {
-      navigate("/login");
-    }
+    //   if (!authToken) {
+    //     navigate("/login");
+    //   }
   }, []);
 
   return (
@@ -53,7 +78,7 @@ export default function HomePage() {
                 borderRadius={"none"}
                 src={product.image}
                 alt={product.name}
-                style={{ width: "100%", height: "auto" }}
+                style={{ width: "100%", height: "200px", objectFit: "cover" }}
               />
               <Box
                 p="2"
@@ -65,51 +90,80 @@ export default function HomePage() {
                 left="0"
                 right="0"
                 bg="white"
-                borderRadius="md"
+                // borderRadius="md"
+                overflow="hidden"
               >
-                <p style={{ fontWeight: "bold", fontSize: "16px" }}>
+                <p
+                  style={{
+                    fontWeight: "bold",
+                    fontSize: "16px",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
+                  }}
+                >
                   {product.title}
                 </p>
-                <p>{product.description}</p>
-                <p style={{ marginTop: "10px", fontWeight: "bold" }}>
-                  ${product.price}
+                <p
+                  style={{
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  {product.description}
+                </p>
+                <p style={{ marginTop: "10px",  color:"teal", marginBottom:"4px" }}>
+                  RS. {product.price}
                 </p>
                 {localStorage.getItem("cartItems") &&
                 JSON.parse(localStorage.getItem("cartItems")).some(
                   (item) => item._id === product._id
                 ) ? (
-                  <Box>
-                    <Button
-                      colorScheme="teal"
-                      mt="2"
+                  <div
+                  style={{backgroundColor:"#66B2B2", color:"#fff", padding:"4px 10px", display:"flex", alignItems:"center", justifyContent:"space-evenly"}}
+                  >
+                    <button
+                      style={{
+                        fontSize: "20px",
+                        fontWeight: "bold",
+                        color: "#fff",
+                      }}
                       onClick={() => removeFromCart(product._id, setProducts)}
                     >
                       -
-                    </Button>
-                    <span>
+                    </button>
+                    <span
+                      style={{
+                        fontSize: "20px",
+                        fontWeight: "bold",
+                        color: "#fff",
+                      }}
+                    >
                       {
                         JSON.parse(localStorage.getItem("cartItems")).find(
                           (item) => item._id === product._id
                         ).count
                       }
                     </span>
-                    <Button
-                      colorScheme="teal"
-                      mt="2"
+                    <button
+                      style={{
+                        fontSize: "20px",
+                        fontWeight: "bold",
+                        color: "#fff",
+                      }}
                       onClick={() => addToCart(product)}
                     >
                       +
-                    </Button>
-                  </Box>
+                    </button>
+                  </div>
                 ) : (
-                  <Button
-                    colorScheme="teal"
-                    mt="2"
-                    w={"100%"}
+                  <button
+                  style={{backgroundColor:"#66B2B2", color:"#fff", padding:"4px 10px", width:"100%"}}
                     onClick={() => addToCart(product, setProducts)}
                   >
                     Add to Cart
-                  </Button>
+                  </button>
                 )}
               </Box>
             </GridItem>
@@ -117,12 +171,17 @@ export default function HomePage() {
         </Grid>
         <div style={{ textAlign: "right", marginTop: "20px" }}>
           <Link to="/all-products">
-            <Button colorScheme="teal" variant="solid">
+            <button style={{backgroundColor:"#66B2B2", color:"#fff", padding:"4px 10px"}} borderRadius={0}>
               Show All Products {">>"}
-            </Button>
+            </button>
           </Link>
         </div>
       </div>
+      {localStorage.getItem("termsAccepted") !== "true" && (
+       <div style={{display:"none"}}>
+         <TermsAndCondition />
+       </div>
+      )}
     </div>
   );
 }

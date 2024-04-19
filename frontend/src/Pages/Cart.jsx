@@ -9,6 +9,7 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import TermsAndCondition from "../Components/TermsAndCondition";
 
 export default function Cart() {
   const [cartItems, setCartItems] = useState(
@@ -25,14 +26,19 @@ export default function Cart() {
     setCartItems(updatedCartItems);
     localStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
   };
-
   const handleDecrement = (productId) => {
-    const updatedCartItems = cartItems.map((item) => {
-      if (item._id === productId && item.count > 1) {
-        return { ...item, count: item.count - 1 };
-      }
-      return item;
-    });
+    const updatedCartItems = cartItems
+      .map((item) => {
+        if (item._id === productId) {
+          if (item.count === 1) {
+            return null;
+          } else {
+            return { ...item, count: item.count - 1 };
+          }
+        }
+        return item;
+      })
+      .filter(Boolean);
     setCartItems(updatedCartItems);
     localStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
   };
@@ -40,88 +46,87 @@ export default function Cart() {
   return (
     <Box style={{ marginTop: "20px", padding: "20px" }}>
       <Heading padding={5}>Products</Heading>
-      <Grid
-        templateColumns="repeat(4, 1fr)"
-        templateRows={"repeat(auto, auto)"}
-        gap={6}
-      >
-        {cartItems.map((product) => (
-          <GridItem
-            key={product._id}
-            px={2}
-            paddingBottom={20}
-            borderRadius="md"
-            position="relative"
-          >
-            <Avatar
-              boxShadow="rgba(0, 0, 0, 0.35) 0px 5px 15px"
-              borderRadius={"none"}
-              src={product.image}
-              alt={product.name}
-              style={{ width: "100%", height: "auto" }}
-            />
-            <Box
-              p="2"
-              boxShadow="rgba(0, 0, 0, 0.35) 0px 5px 15px"
-              w={"80%"}
-              m={"auto"}
-              position="absolute"
-              bottom="0"
-              left="0"
-              right="0"
-              bg="white"
+      {cartItems.length === 0 ? (
+        <Text textAlign="center" fontSize="xl">
+          No products in the cart. <Link to="/">Shop Now</Link>
+        </Text>
+      ) : (
+        <Grid
+          templateColumns="repeat(4, 1fr)"
+          templateRows={"repeat(auto, auto)"}
+          gap={6}
+        >
+          {cartItems.map((product) => (
+            <GridItem
+              key={product._id}
+              px={2}
+              paddingBottom={20}
               borderRadius="md"
+              position="relative"
             >
-              <p style={{ fontWeight: "bold", fontSize: "16px" }}>
-                {product.title}
-              </p>
-              <p>{product.description}</p>
-              <p style={{ marginTop: "10px", fontWeight: "bold" }}>
-                ${product.price}
-              </p>
+              <Avatar
+                boxShadow="rgba(0, 0, 0, 0.35) 0px 5px 15px"
+                borderRadius={"none"}
+                src={product.image}
+                alt={product.name}
+                style={{ width: "100%", height: "auto" }}
+              />
               <Box
-                width={"100%"}
-                borderRadius={6}
-                mt="2"
-                color={"#fff"}
-                fontSize={"25px"}
-                fontWeight={700}
-                backgroundColor={"teal"}
-                display={"flex"}
-                justifyContent={"space-around"}
-                alignItems={"center"}
+                p="2"
+                boxShadow="rgba(0, 0, 0, 0.35) 0px 5px 15px"
+                w={"80%"}
+                m={"auto"}
+                position="absolute"
+                bottom="0"
+                left="0"
+                right="0"
+                bg="white"
               >
-                <Button
-                  fontSize={"25px"}
-                  colorScheme="none"
-                  size="sm"
-                  onClick={() => handleDecrement(product._id)}
+                <p style={{ fontWeight: "bold", fontSize: "16px" }}>
+                  {product.title}
+                </p>
+                <p>{product.description}</p>
+                <p style={{ marginTop: "10px", color: "teal" }}>
+                  RS. {product.price}
+                </p>
+                <div
+                  style={{backgroundColor:"#66B2B2", color:"#fff", padding:"4px 10px", display:"flex", alignItems:"center", justifyContent:"space-evenly"}}
                 >
-                  -
-                </Button>
-                <Text color={"#fff"} display="inline-block" mx={2}>
-                  {product.count}
-                </Text>
-                <Button
-                  fontSize={"25px"}
-                  colorScheme="none"
-                  size="sm"
-                  onClick={() => handleIncrement(product._id)}
-                >
-                  +
-                </Button>
+                  <button
+                   style={{fontWeight:"700", fontSize:"20px" }}
+                    onClick={() => handleDecrement(product._id)}
+                  >
+                    -
+                  </button>
+                  <Text fontWeight={700} color={"#fff"} display="inline-block" mx={2}>
+                    {product.count}
+                  </Text>
+                  <button
+                   style={{fontWeight:"700", fontSize:"20px" }}
+                    onClick={() => handleIncrement(product._id)}
+                  >
+                    +
+                  </button>
+                </div>
               </Box>
-            </Box>
-          </GridItem>
-        ))}
-      </Grid>
-      <div style={{ textAlign: "right", marginTop: "20px" }}>
-        <Link to="/checkout">
-          <Button colorScheme="teal" variant="solid">
-            Checkout
-          </Button>
-        </Link>
-      </div>
+            </GridItem>
+          ))}
+        </Grid>
+      )}
+      {cartItems.length > 0 && (
+        <div style={{ textAlign: "right", marginTop: "20px" }}>
+          <Link to="/checkout">
+            <button style={{backgroundColor:"#66B2B2", padding:"4px 50px", color:"#fff", fontWeight:"bold"}} >
+              Checkout
+            </button>
+          </Link>
+        </div>
+      )}
+     {localStorage.getItem("termsAccepted") !== "true" && (
+       <div style={{display:"none"}}>
+         <TermsAndCondition />
+       </div>
+      )}
     </Box>
   );
 }

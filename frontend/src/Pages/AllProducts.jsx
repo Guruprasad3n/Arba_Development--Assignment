@@ -2,6 +2,7 @@ import { Avatar, Box, Button, Grid, GridItem, Heading } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Pagination from "../Components/Pagination";
+import TermsAndCondition from "../Components/TermsAndCondition";
 
 export default function AllProducts() {
   const [allProducts, setProducts] = useState([]);
@@ -13,12 +14,17 @@ export default function AllProducts() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
+        const userId = JSON.parse(localStorage.getItem("userId"));
+        if (!userId) {
+          console.error("User ID not found in localStorage");
+          return;
+        }
+
         const response = await fetch(
-          `http://localhost:8000/api/product/get-products?page=${currentPage}`
+          `http://localhost:8000/api/product/user-products/${userId._id}?page=${currentPage}`
         );
         if (response.ok) {
           const data = await response.json();
-          console.log(data);
           setProducts(data.products);
           setTotalPages(data.totalPages);
         } else {
@@ -32,9 +38,9 @@ export default function AllProducts() {
     fetchProducts();
 
     const authToken = localStorage.getItem("authToken");
-    if (!authToken) {
-      navigate("/login");
-    }
+    // if (!authToken) {
+    //   navigate("/login");
+    // }
   }, [currentPage, navigate]);
 
   useEffect(() => {
@@ -65,11 +71,9 @@ export default function AllProducts() {
     const updatedItems = cartItems.map((item) =>
       item._id === productId ? { ...item, count: item.count - 1 } : item
     );
-    setCartItems(updatedItems.filter((item) => item.count > 0));
-    localStorage.setItem(
-      "cartItems",
-      JSON.stringify(updatedItems.filter((item) => item.count > 0))
-    );
+    const filteredItems = updatedItems.filter((item) => item.count > 0);
+    setCartItems(filteredItems);
+    localStorage.setItem("cartItems", JSON.stringify(filteredItems));
   };
 
   return (
@@ -94,7 +98,7 @@ export default function AllProducts() {
                 borderRadius={"none"}
                 src={product.image}
                 alt={product.name}
-                style={{ width: "100%", height: "auto" }}
+                style={{ width: "100%", height: "200px", objectFit: "cover" }}
               />
               <Box
                 p="2"
@@ -106,58 +110,77 @@ export default function AllProducts() {
                 left="0"
                 right="0"
                 bg="white"
-                borderRadius="md"
+                overflow="hidden"
               >
-                <p style={{ fontWeight: "bold", fontSize: "16px" }}>
+                <p
+                  style={{
+                    fontWeight: "bold",
+                    fontSize: "16px",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
+                  }}
+                >
                   {product.title}
                 </p>
-                <p>{product.description}</p>
-                <p style={{ marginTop: "10px", fontWeight: "bold" }}>
-                  ${product.price}
+                <p
+                  style={{
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  {product.description}
+                </p>
+                <p
+                  style={{
+                    marginTop: "10px",
+                    color: "teal",
+                    marginBottom: "4px",
+                  }}
+                >
+                  RS. {product.price}
                 </p>
                 {cartItems.find((item) => item._id === product._id) ? (
                   <Box
-                    borderRadius={6}
                     mt="2"
                     color={"#fff"}
                     fontSize={"25px"}
                     fontWeight={700}
-                    backgroundColor={"teal"}
+                    backgroundColor={"#66B2B2"}
                     display={"flex"}
                     justifyContent={"space-around"}
                     alignItems={"center"}
                   >
-                    <Button
-                      colorScheme="none"
-                      fontSize={"25px"}
-                      fontWeight={700}
-                      // mt="2"
+                    <button
+                      style={{ color: "#fff", fontWeight: "700" }}
                       onClick={() => removeFromCart(product._id)}
                     >
                       -
-                    </Button>
+                    </button>
                     <span>
                       {cartItems.find((item) => item._id === product._id).count}
                     </span>
-                    <Button
-                      fontSize={"25px"}
-                      fontWeight={700}
-                      colorScheme="none"
-                      // mt="2"
+                    <button
+                      style={{ color: "#fff", fontWeight: "700" }}
                       onClick={() => addToCart(product)}
                     >
                       +
-                    </Button>
+                    </button>
                   </Box>
                 ) : (
-                  <Button
-                    colorScheme="teal"
-                    mt="2"
-                    w={"100%"}
+                  <button
+                    style={{
+                      color: "#fff",
+                      fontWeight: "700",
+                      backgroundColor: "#66B2B2",
+                      width: "100%",
+                      padding: "4px 0px",
+                    }}
                     onClick={() => addToCart(product)}
                   >
                     Add to Cart
-                  </Button>
+                  </button>
                 )}
               </Box>
             </GridItem>
@@ -169,6 +192,11 @@ export default function AllProducts() {
         totalPages={totalPages}
         onPageChange={handlePageChange}
       />
+    {localStorage.getItem("termsAccepted") !== "true" && (
+       <div style={{display:"none"}}>
+         <TermsAndCondition />
+       </div>
+      )}
     </>
   );
 }

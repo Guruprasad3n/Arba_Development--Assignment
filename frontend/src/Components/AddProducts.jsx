@@ -91,7 +91,7 @@ export default function AddProducts() {
     <>
       <button
         style={{
-          backgroundColor: "teal",
+          backgroundColor:"#66B2B2",
           color: "#fff",
           padding: "4px 20px",
         }}

@@ -33,7 +33,7 @@ export default function Navbar() {
       }
     } else {
       setAuthTokenAvailable(false);
-      navigate("/login");
+      // navigate("/login");
     }
   }, [navigate]);
   
@@ -41,6 +41,7 @@ export default function Navbar() {
 
   const handleLogout = () => {
     localStorage.removeItem("authToken");
+    localStorage.removeItem("termsAccepted");
     navigate("/login");
   };
 
