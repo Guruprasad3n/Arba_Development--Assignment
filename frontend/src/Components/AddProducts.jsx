@@ -24,14 +24,14 @@ export default function AddProducts() {
   const [category, setCategory] = useState("");
   const [image, setImage] = useState("");
   const [owner, setOwner] = useState("");
-  
+
   const initialRef = useRef(null);
   const finalRef = useRef(null);
 
   const fetchCategories = async () => {
     try {
       const response = await fetch(
-        "https://arba-6hjr.onrender.com/api/category/all-categories"
+        `${import.meta.env.VITE_KEY}/api/category/all-categories`
       );
       if (response.ok) {
         const data = await response.json();
@@ -45,7 +45,7 @@ export default function AddProducts() {
   };
 
   useEffect(() => {
-    const userId = JSON.parse( localStorage.getItem("userId"));
+    const userId = JSON.parse(localStorage.getItem("userId"));
     if (userId) {
       setOwner(userId);
     }
@@ -54,7 +54,7 @@ export default function AddProducts() {
   const handleSave = async () => {
     try {
       const response = await fetch(
-        "https://arba-6hjr.onrender.com/api/product/create-product",
+        `${import.meta.env.VITE_KEY}/api/product/create-product`,
         {
           method: "POST",
           headers: {
@@ -66,7 +66,7 @@ export default function AddProducts() {
             price,
             category,
             image,
-            owner
+            owner,
           }),
         }
       );
@@ -89,7 +89,7 @@ export default function AddProducts() {
     <>
       <button
         style={{
-          backgroundColor:"#1ec3cd",
+          backgroundColor: "#1ec3cd",
           color: "#fff",
           padding: "4px 20px",
         }}
@@ -163,10 +163,27 @@ export default function AddProducts() {
           </ModalBody>
 
           <ModalFooter>
-            <button style={{color:"#fff", backgroundColor:"#1ec3cd", padding:"6px 30px", }}  onClick={handleSave}>
+            <button
+              style={{
+                color: "#fff",
+                backgroundColor: "#1ec3cd",
+                padding: "6px 30px",
+              }}
+              onClick={handleSave}
+            >
               Save
             </button>
-            <button style={{color:"#fff", backgroundColor:"#1ec3cd", padding:"6px 30px", marginLeft:"20px" }} onClick={onClose}>Cancel</button>
+            <button
+              style={{
+                color: "#fff",
+                backgroundColor: "#1ec3cd",
+                padding: "6px 30px",
+                marginLeft: "20px",
+              }}
+              onClick={onClose}
+            >
+              Cancel
+            </button>
           </ModalFooter>
         </ModalContent>
       </Modal>

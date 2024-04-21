@@ -32,7 +32,7 @@ export default function CategoryEdit({ category, onUpdate }) {
   const handleSave = async () => {
     try {
       const response = await fetch(
-        `https://arba-6hjr.onrender.com/api/category/update-category/${category._id}`,
+        `${import.meta.env.VITE_KEY}/api/category/update-category/${category._id}`,
         {
           method: "PUT",
           headers: {

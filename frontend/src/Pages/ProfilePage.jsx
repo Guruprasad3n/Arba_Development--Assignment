@@ -44,7 +44,7 @@ export default function ProfilePage() {
 
       try {
         const response = await fetch(
-          `https://arba-6hjr.onrender.com/api/user/${userId._id}`
+          `${import.meta.env.VITE_KEY}/api/user/${userId._id}`
         );
         const data = await response.json();
 
@@ -76,7 +76,7 @@ export default function ProfilePage() {
       };
 
       const response = await fetch(
-        `https://arba-6hjr.onrender.com/api/user/${user._id}`,
+        `${import.meta.env.VITE_KEY}/api/user/${user._id}`,
         {
           method: "PUT",
           headers: {

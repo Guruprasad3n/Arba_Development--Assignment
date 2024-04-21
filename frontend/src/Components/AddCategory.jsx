@@ -26,7 +26,7 @@ export default function AddCategory() {
     try {
 
       const response = await fetch(
-        "https://arba-6hjr.onrender.com/api/category/create-category",
+        `${import.meta.env.VITE_KEY}/api/category/create-category`,
         {
           method: "POST",
           headers: {
@@ -91,7 +91,7 @@ export default function AddCategory() {
           </ModalBody>
 
           <ModalFooter>
-            <button style={{color:"#fff", backgroundColor:"#1ec3cd", padding:"6px 30px" }} colorScheme="blue" mr={3} onClick={handleSave}>
+            <button style={{color:"#fff", backgroundColor:"#1ec3cd", padding:"6px 30px" }} onClick={handleSave}>
               Save
             </button>
             <button style={{color:"#fff", backgroundColor:"#1ec3cd", padding:"6px 30px", marginLeft:"20px" }} onClick={onClose}>Cancel</button>

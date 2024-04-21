@@ -20,7 +20,7 @@ export default function HomePage() {
         }
 
         const response = await fetch(
-          `https://arba-6hjr.onrender.com/api/product/user-products/${userId._id}`
+          `${import.meta.env.VITE_KEY}/api/product/user-products/${userId._id}`
         );
         if (response.ok) {
           const data = await response.json();
@@ -185,7 +185,6 @@ export default function HomePage() {
                 color: "#fff",
                 padding: "4px 10px",
               }}
-              borderRadius={0}
             >
               Show All Products {">>"}
             </button>

@@ -30,7 +30,7 @@ export default function ProductEdit({ product, onUpdate }) {
   const fetchCategory = async () => {
     try {
       const response = await fetch(
-        "https://arba-6hjr.onrender.com/api/category/all-categories"
+        `${import.meta.env.VITE_KEY}/api/category/all-categories`
       );
       if (response.ok) {
         const data = await response.json();
@@ -46,7 +46,7 @@ export default function ProductEdit({ product, onUpdate }) {
   const handleSave = async () => {
     try {
       const response = await fetch(
-        `https://arba-6hjr.onrender.com/api/product/update-product/${product._id}`,
+        `${import.meta.env.VITE_KEY}/api/product/update-product/${product._id}`,
         {
           method: "PUT",
           headers: {
@@ -55,7 +55,7 @@ export default function ProductEdit({ product, onUpdate }) {
           body: JSON.stringify({
             title,
             description,
-            price,
+            price:parseFloat(price),
             category,
             image,
           }),

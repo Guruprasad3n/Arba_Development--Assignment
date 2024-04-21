@@ -33,7 +33,9 @@ export default function Signup() {
     }
     try {
       const res = await fetch(
-        `https://arba-6hjr.onrender.com/api/user/register`,
+        // 
+        // https://arba-6hjr.onrender.com
+        `${import.meta.env.VITE_KEY}/api/user/register`,
         {
           method: "POST",
           headers: {
