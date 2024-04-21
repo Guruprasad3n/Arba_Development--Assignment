@@ -2,7 +2,6 @@ const productModel = require("../Models/productModel");
 const categoryModel = require("../Models/categoryModel");
 const fs = require("fs");
 const slugify = require("slugify");
-const cartModel = require("../Models/cartModel");
 
 const createProduct = async (req, res) => {
   try {
@@ -100,31 +99,75 @@ const deleteProduct = async (req, res) => {
 };
 const updateProduct = async (req, res) => {
   try {
-    const { title, description, price, category, image } = req.fields;
-    if (!title || !description || !price || !category || !image) {
+    const { title, description, price, category, image } = req.body;
+
+    // Optional: More robust validation
+    if (price !== undefined && isNaN(price)) {
       return res
         .status(400)
-        .send({ success: false, message: "Missing required fields" });
+        .send({ success: false, message: "Price must be a valid number" });
     }
 
-    const products = await productModel.findByIdAndUpdate(
+    const updateFields = {};
+    if (title) updateFields.title = slugify(title);
+    if (description) updateFields.description = description;
+    if (price !== undefined) updateFields.price = price;
+    if (category) updateFields.category = category;
+    if (image) updateFields.image = image;
+
+    const product = await productModel.findByIdAndUpdate(
       req.params.id,
-      { ...req.fields, title: slugify(title) },
+      updateFields,
       { new: true }
     );
-    await products.save();
-    res.status(201).send({
+
+    if (!product) {
+      return res
+        .status(404)
+        .send({ success: false, message: "Product not found" });
+    }
+
+    res.status(200).send({
       success: true,
-      message: "Product Updated Successfull",
-      products,
+      message: "Product updated successfully",
+      product,
     });
   } catch (error) {
-    console.log(error);
+    console.error("Error updating product:", error);
     res
       .status(500)
-      .send({ success: false, message: "Error In Update Product" });
+      .send({ success: false, message: "Error updating product" });
   }
 };
+
+
+// const updateProduct = async (req, res) => {
+//   try {
+//     const { title, description, price, category, image } = req.body;
+//     if (!title || !description || !price || !category || !image) {
+//       return res
+//         .status(400)
+//         .send({ success: false, message: "Missing required fields" });
+//     }
+
+//     const products = await productModel.findByIdAndUpdate(
+//       req.params.id,
+//       { ...req.fields, title: slugify(title) },
+//       { new: true }
+//     );
+//     await products.save();
+//     res.status(201).send({
+//       success: true,
+//       message: "Product Updated Successfull",
+//       products,
+//     });
+//   } catch (error) {
+//     console.log(error);
+//     res
+//       .status(500)
+//       .send({ success: false, message: "Error In Update Product" });
+//   }
+// };
 
 const addToCart = async (req, res) => {
   try {

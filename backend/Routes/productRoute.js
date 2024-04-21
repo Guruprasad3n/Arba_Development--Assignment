@@ -21,6 +21,6 @@ router.get("/get-product/:title", singleProduct);
 router.get("/user-products/:userId", userProducts);
 // router.get("/product-photo/:id", getProductPhoto);
 router.delete("/delete-product/:id", deleteProduct);
-router.put("/update-product/:id", formidable(), updateProduct);
+router.put("/update-product/:id",  updateProduct);
 router.post("/add-to-cart", requireSignIn, addToCart);
 module.exports = router;
