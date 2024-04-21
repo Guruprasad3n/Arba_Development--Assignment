@@ -16,9 +16,9 @@ app.use(cors({ origin: '*' }));
 app.use("/api/user", UserRouter);
 app.use("/api/category", CategoryRouter);
 app.use("/api/product", ProductRouter);
-// app.get("/", async (req, res) => {
-//   res.send("Welcome ARBA");
-// });
+app.get("/", async (req, res) => {
+  res.send("Welcome ARBA");
+});
 
 const Port = process.env.PORT || 5000;
 app.listen(Port, async () => {
