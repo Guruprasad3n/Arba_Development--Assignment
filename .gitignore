@@ -26,3 +26,5 @@ dotenv
 
 # Local Netlify folder
 .netlify
+_redirects
+dumpcode

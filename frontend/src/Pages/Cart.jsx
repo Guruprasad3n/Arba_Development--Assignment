@@ -52,9 +52,9 @@ export default function Cart() {
         </Text>
       ) : (
         <Grid
-          templateColumns="repeat(4, 1fr)"
-          templateRows={"repeat(auto, auto)"}
-          gap={6}
+        templateColumns="repeat(4, 1fr)"
+        templateRows={"repeat(auto, auto)"}
+        gap={6}
         >
           {cartItems.map((product) => (
             <GridItem
@@ -69,7 +69,7 @@ export default function Cart() {
                 borderRadius={"none"}
                 src={product.image}
                 alt={product.name}
-                style={{ width: "100%", height: "auto" }}
+                style={{ width: "100%", height: "200px", objectFit: "cover" }}
               />
               <Box
                 p="2"

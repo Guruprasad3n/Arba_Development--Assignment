@@ -46,6 +46,7 @@ export default function ProfilePage() {
           `${import.meta.env.VITE_KEY}/api/user/${userId._id}`
         );
         const data = await response.json();
+        const userData = data;
 
         if (response.ok) {
           setUser(data.user);
@@ -88,7 +89,7 @@ export default function ProfilePage() {
       const data = await response.json();
       if (response.ok) {
         setUser(data.user);
-        console.log("Profile updated successfully");
+        alert("Profile updated successfully");
         setIsUpdateProfileModalOpen(false);
         setIsUserNameModalOpen(false);
       } else {
@@ -124,6 +125,7 @@ export default function ProfilePage() {
       }
 
       setAvatarNew(responseData.url.toString());
+      e.target.value = null;
     } catch (error) {
       console.error("Error uploading avatar:", error);
     }
@@ -164,6 +166,13 @@ export default function ProfilePage() {
       console.error("Failed to update avatar:", error);
     }
   };
+  useEffect(()=>{
+  
+
+    if (avatarNew) {
+      handleAvatarSubmit();
+    }
+  },[avatarNew])
 
   return (
     <>
@@ -175,43 +184,60 @@ export default function ProfilePage() {
           {user ? (
             <>
               <Box
-                h={"300px"}
                 display={"flex"}
+                flexDirection={"column"}
                 alignItems={"center"}
                 justifyContent={"center"}
+                textAlign={"center"}
               >
-                <Avatar
-                  w={"100%"}
-                  h={"100%"}
-                  borderRadius={0}
-                  src={user.avatar}
-                  objectFit={"cover"}
+                <Box
+                  position={"relative"}
                   onClick={() => setIsChangeAvatarModalOpen(true)}
-                />
-              </Box>
-              <Text textAlign={"center"} fontWeight={"bold"}>
-                {user.userName}
-              </Text>
-              <Text textAlign={"center"} fontWeight={"bold"}>
-                {user.email}
-              </Text>
-              <Box
-                display={"flex"}
-                alignItems={"center"}
-                justifyContent={"center"}
-                mt={5}
-                p={2}
-              >
-                <button
-                  style={{
-                    backgroundColor: "#1ec3cd",
-                    color: "white",
-                    padding: "5px 50px",
-                  }}
-                  onClick={() => setIsUserNameModalOpen(true)}
                 >
-                  Update Profile
-                </button>
+                  <Text
+                    position={"absolute"}
+                    top={0}
+                    left={0}
+                    right={0}
+                    bg={"rgba(0,0,0,0.5)"}
+                    color={"white"}
+                    py={1}
+                    fontWeight={"bold"}
+                    textAlign={"center"}
+                    width={"100%"}
+                    zIndex={1}
+                  >
+                    {user.fullName}
+                  </Text>
+                  <Avatar
+                    w={"300px"}
+                    h={"300px"}
+                    borderRadius={0}
+                    src={user.avatar}
+                    objectFit={"cover"}
+                  />
+                </Box>
+                <Text fontWeight={"bold"} mt={3}>
+                  {user.userName}
+                </Text>
+                <Text fontWeight={"bold"} mt={3}>
+                  {user.email}
+                </Text>
+                <Box mt={3}>
+                  <button
+                    style={{
+                      backgroundColor: "#1ec3cd",
+                      color: "white",
+                      padding: "10px 50px",
+                      borderRadius: "0px",
+                      border: "none",
+                      outline: "none",
+                    }}
+                    onClick={() => setIsUserNameModalOpen(true)}
+                  >
+                    Update Profile
+                  </button>
+                </Box>
               </Box>
             </>
           ) : (
@@ -264,7 +290,6 @@ export default function ProfilePage() {
               backgroundColor={"#1ec3cd"}
               color={"#fff"}
               mt={4}
-              // onClick={handleUpdateProfile}
               onClick={handleAvatarSubmit}
             >
               Submit
@@ -283,28 +308,49 @@ export default function ProfilePage() {
           <ModalHeader>Update Profile</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <FormControl>
-              <FormLabel>Full Name</FormLabel>
-              <Input
-                type="text"
-                value={fullNameNew}
-                onChange={(e) => setFullNameNew(e.target.value)}
-                placeholder={"Enter Full Name"}
-              />
-            </FormControl>
-            <Button
-              borderRadius={0}
-              backgroundColor={"#1ec3cd"}
-              color={"#fff"}
-              mt={4}
-              onClick={handleUpdateProfile}
-            >
-              Submit
-            </Button>
+            {user && (
+              <>
+                <FormControl>
+                  <FormLabel>Full Name</FormLabel>
+                  <Input
+                    defaultValue={user.fullName}
+                    type="text"
+                    onChange={(e) => setFullNameNew(e.target.value)}
+                    placeholder={"Enter Full Name"}
+                  />
+                </FormControl>
+                <FormControl>
+                  <FormLabel>Username</FormLabel>
+                  <Input
+                    disabled
+                    type="text"
+                    defaultValue={user.userName}
+                    placeholder="Enter Username"
+                  />
+                </FormControl>
+                <FormControl mt={4}>
+                  <FormLabel>Email</FormLabel>
+                  <Input
+                    disabled
+                    type="email"
+                    defaultValue={user.email}
+                    placeholder="Enter Email"
+                  />
+                </FormControl>
+                <Button
+                  borderRadius={0}
+                  backgroundColor={"#1ec3cd"}
+                  color={"#fff"}
+                  mt={4}
+                  onClick={handleUpdateProfile}
+                >
+                  Submit
+                </Button>
+              </>
+            )}
           </ModalBody>
         </ModalContent>
       </Modal>
-
       {/* Password Model */}
       <Modal
         isOpen={isUpdateProfileModalOpen}
