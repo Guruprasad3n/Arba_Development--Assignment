@@ -11,8 +11,8 @@ Fullstack
 Frontend: [Deplot Link](https://arbagp.netlify.app/)
 
 ## Test User 
-    - User id : 
-    - Password : 
+    - User id : user
+    - Password : user@123
 
 <!-- Backend: [https://kryzen-assignment-4d0z.onrender.com](https://kryzen-assignment-4d0z.onrender.com) -->
 

@@ -33,7 +33,7 @@ export default function Signup() {
     }
     try {
       const res = await fetch(
-        // 
+        //
         // https://arba-6hjr.onrender.com
         `${import.meta.env.VITE_KEY}/api/user/register`,
         {
@@ -50,7 +50,9 @@ export default function Signup() {
         }
       );
       const data = await res.json();
-      console.log("data", data);
+      if (data.success == false) {
+        alert(data.message);
+      }
       if (!res.ok) {
         const errorData = await res.json();
         dispatch(signupFailure(errorData.message));
