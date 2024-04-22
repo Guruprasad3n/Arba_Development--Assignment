@@ -28,7 +28,7 @@ export default function Navbar() {
       setAuthTokenAvailable(true);
       const userId = JSON.parse(localStorage.getItem("userId"));
       if (userId) {
-        const userImage = userId.avatar; 
+        const userImage = userId.avatar;
         setUserImage(userImage);
       }
     } else {
@@ -36,8 +36,6 @@ export default function Navbar() {
       // navigate("/login");
     }
   }, [navigate]);
-  
-
 
   const handleLogout = () => {
     localStorage.removeItem("authToken");
@@ -58,12 +56,11 @@ export default function Navbar() {
               as={"nav"}
               spacing={4}
               display={{ base: "none", md: "flex" }}
-            >
-            </HStack>
+            ></HStack>
           </HStack>
           <Flex alignItems={"center"} gap={5}>
             <Button as={Link} to={"/cart"}>
-              <FaCartShopping fontSize={"1.9rem"}  color="#1ec3cd" />
+              <FaCartShopping fontSize={"1.9rem"} color="#1ec3cd" />
               {cartItemCount > 0 && (
                 <Box
                   bg="green"
@@ -88,20 +85,15 @@ export default function Navbar() {
                   cursor={"pointer"}
                   minW={0}
                 >
-                  <Avatar
-                     size={"sm"}
-                     src={userImage}
-                  />
+                  <Avatar size={"sm"} src={userImage} />
                 </MenuButton>
                 <MenuList>
-                  <MenuItem>
-                    {" "}
-                    <Link to={"/my-store"}>My Store</Link>{" "}
-                  </MenuItem>
-                  <MenuItem>
-                    {" "}
-                    <Link to={"/profile"}>Profile</Link>
-                  </MenuItem>
+                  <Link to={"/my-store"}>
+                    <MenuItem> My Store</MenuItem>
+                  </Link>{" "}
+                  <Link to={"/profile"}>
+                    <MenuItem> Profile</MenuItem>
+                  </Link>
                   <MenuDivider />
                   <MenuItem onClick={handleLogout}>Logout</MenuItem>
                 </MenuList>

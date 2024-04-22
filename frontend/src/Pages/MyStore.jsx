@@ -99,7 +99,7 @@ export default function MyStore() {
   const deleteProduct = async (id) => {
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_KEY}/api/product//delete-product/${id}`,
+        `${import.meta.env.VITE_KEY}/api/product/delete-product/${id}`,
         {
           method: "DELETE",
           headers: {
@@ -170,7 +170,7 @@ export default function MyStore() {
                   >
                     Filter
                   </button>
-                  <AddCategory />
+                  <AddCategory handleProductRefresh={handleProductRefresh} />
                 </Flex>
                 <Table size="sm">
                   <Thead>
@@ -200,6 +200,7 @@ export default function MyStore() {
                         <Td>
                           <Flex gap={2} alignItems={"center"}>
                             <CategoryEdit
+                            
                               category={e}
                               onUpdate={onUpdateCategory}
                             />
@@ -239,7 +240,11 @@ export default function MyStore() {
                     Filter
                   </button>
 
-                  <AddProducts />
+                  <AddProducts
+                  handleProductRefresh={handleProductRefresh}
+                    // productData={productData}
+                    // setProductData={setProductData}
+                  />
                 </Flex>
                 <Table size="sm">
                   <Thead>
@@ -274,7 +279,7 @@ export default function MyStore() {
                             />
                             {"|"}
                             <button
-                              style={{ fontWeight: "bold",  }}
+                              style={{ fontWeight: "bold" }}
                               onClick={() => deleteProduct(e._id)}
                             >
                               Delete
@@ -289,12 +294,11 @@ export default function MyStore() {
             </TabPanels>
           </Tabs>
         </Container>
-
       </Flex>
       {localStorage.getItem("termsAccepted") !== "true" && (
-       <div style={{display:"none"}}>
-         <TermsAndCondition />
-       </div>
+        <div style={{ display: "none" }}>
+          <TermsAndCondition />
+        </div>
       )}
     </>
   );

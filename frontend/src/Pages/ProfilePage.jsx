@@ -25,13 +25,12 @@ import TermsAndCondition from "../Components/TermsAndCondition";
 export default function ProfilePage() {
   const [user, setUser] = useState(null);
   const [isChangeAvatarModalOpen, setIsChangeAvatarModalOpen] = useState(false);
-  const [passwordNew, setPetpasswordNew] = useState("");
+  const [passwordNew, setPasswordNew] = useState("");
   const [fullNameNew, setFullNameNew] = useState("");
   const [isUpdateProfileModalOpen, setIsUpdateProfileModalOpen] =
     useState(false);
   const [isUserNameModalOpen, setIsUserNameModalOpen] = useState(false);
   const [avatarNew, setAvatarNew] = useState("");
-
   const [showPassword, setShowPassword] = useState(false);
 
   const handleTogglePasswordVisibility = () => {
@@ -71,7 +70,6 @@ export default function ProfilePage() {
 
       const updatedProfileData = {
         fullName: fullNameNew,
-        avatar: avatarNew,
         newPassword: passwordNew,
       };
 
@@ -93,7 +91,6 @@ export default function ProfilePage() {
         console.log("Profile updated successfully");
         setIsUpdateProfileModalOpen(false);
         setIsUserNameModalOpen(false);
-        setIsChangeAvatarModalOpen(false);
       } else {
         console.error(data.message);
       }
@@ -101,6 +98,73 @@ export default function ProfilePage() {
       console.error("Failed to update profile:", error);
     }
   };
+
+  const handleAvatarChange = async (e) => {
+    const file = e.target.files[0];
+    try {
+      const data = new FormData();
+      data.append("file", file);
+      data.append("upload_preset", "arba-dev");
+      data.append("cloud_name", "dreyat4ae");
+
+      const response = await fetch(
+        "https://api.cloudinary.com/v1_1/dreyat4ae/image/upload",
+        {
+          method: "POST",
+          body: data,
+        }
+      );
+
+      console.log("Response status:", response.status);
+      const responseData = await response.json();
+      console.log("Response data:", responseData);
+
+      if (!response.ok) {
+        throw new Error("Failed to upload image to Cloudinary");
+      }
+
+      setAvatarNew(responseData.url.toString());
+    } catch (error) {
+      console.error("Error uploading avatar:", error);
+    }
+  };
+  const handleAvatarSubmit = async () => {
+    try {
+      const authToken = localStorage.getItem("authToken");
+      if (!authToken) {
+        console.error("Authentication token not found");
+        return;
+      }
+
+      const updatedAvatarData = {
+        avatar: avatarNew,
+      };
+      console.log("updatedAvatarDataNew", updatedAvatarData);
+      const response = await fetch(
+        `${import.meta.env.VITE_KEY}/api/user/${user._id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `${authToken}`,
+          },
+          body: JSON.stringify(updatedAvatarData),
+        }
+      );
+
+      const data = await response.json();
+      if (response.ok) {
+        setUser(data.user);
+        console.log("Avatar updated successfully");
+        setIsChangeAvatarModalOpen(false);
+      } else {
+        console.error(data.message);
+      }
+    } catch (error) {
+      console.error("Failed to update avatar:", error);
+    }
+  };
+
   return (
     <>
       <Heading paddingX={10} paddingY={3}>
@@ -177,7 +241,7 @@ export default function ProfilePage() {
         </button>
       </Container>
 
-      {/* Avatar Model */}
+      {/* Avatar Modal */}
       <Modal
         isOpen={isChangeAvatarModalOpen}
         onClose={() => setIsChangeAvatarModalOpen(false)}
@@ -188,11 +252,11 @@ export default function ProfilePage() {
           <ModalCloseButton />
           <ModalBody>
             <FormControl>
-              <FormLabel>Avatar Image URL</FormLabel>
+              <FormLabel>Avatar Image</FormLabel>
               <Input
-                placeholder="Enter New Avatar URL"
-                onChange={(e) => setAvatarNew(e.target.value)}
-                value={avatarNew}
+                type="file"
+                accept="image/*"
+                onChange={handleAvatarChange}
               />
             </FormControl>
             <Button
@@ -200,14 +264,16 @@ export default function ProfilePage() {
               backgroundColor={"#1ec3cd"}
               color={"#fff"}
               mt={4}
-              onClick={handleUpdateProfile}
+              // onClick={handleUpdateProfile}
+              onClick={handleAvatarSubmit}
             >
               Submit
             </Button>
           </ModalBody>
         </ModalContent>
       </Modal>
-      {/* UserName Model */}
+
+      {/* UserName Modal */}
       <Modal
         isOpen={isUserNameModalOpen}
         onClose={() => setIsUserNameModalOpen(false)}
@@ -253,10 +319,14 @@ export default function ProfilePage() {
             <FormControl mt={4}>
               <FormLabel>New Password</FormLabel>
               <input
-              style={{borderBottom:"2px solid #1ec3cd", padding:"10px", outline:"none"}}
+                style={{
+                  borderBottom: "2px solid #1ec3cd",
+                  padding: "10px",
+                  outline: "none",
+                }}
                 type={showPassword ? "text" : "password"}
                 value={passwordNew}
-                onChange={(e) => setPetpasswordNew(e.target.value)}
+                onChange={(e) => setPasswordNew(e.target.value)}
                 placeholder={"Enter Password"}
               />
               <IconButton

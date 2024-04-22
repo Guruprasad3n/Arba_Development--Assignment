@@ -7,10 +7,9 @@ import TermsAndCondition from "../Components/TermsAndCondition";
 
 export default function HomePage() {
   const [products, setProducts] = useState([]);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   useEffect(() => {
-
     const fetchProducts = async () => {
       try {
         const userId = JSON.parse(localStorage.getItem("userId"));
@@ -34,10 +33,6 @@ export default function HomePage() {
     };
 
     fetchProducts();
-    // const authToken = localStorage.getItem("authToken");
-    //   if (!authToken) {
-    //     navigate("/login");
-    //   }
   }, []);
   const authToken = localStorage.getItem("authToken");
 
@@ -155,7 +150,7 @@ export default function HomePage() {
                         fontWeight: "bold",
                         color: "#fff",
                       }}
-                      onClick={() => addToCart(product)}
+                      onClick={() => addToCart(product, setProducts)}
                     >
                       +
                     </button>
